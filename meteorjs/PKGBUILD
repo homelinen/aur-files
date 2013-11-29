@@ -1,0 +1,29 @@
+# Contributor: Massimiliano Torromeo <massimiliano.torromeo@gmail.com>
+# Contributor: Parth Buch <parthbuch115 at gmail dot com>
+# Contributor: Tom Vincent <http://tlvince.com/contact/>
+# Maintainer: Valentin Haloiu <vially.ichb+aur@gmail.com>
+
+pkgname=meteorjs
+pkgver=0.6.6.3
+pkgrel=1
+pkgdesc="Open-source platform for building top-quality web apps in a fraction of the time."
+arch=('i686' 'x86_64')
+url="https://github.com/meteor/meteor"
+license=('MIT')
+depends=('nodejs' 'mongodb')
+options=('!strip')
+
+sha256sums=('abb9eb0ddbcf65b32c974c6e6db8e6a488eea90e6aa9eee3d8c85c5c1ea444c4')
+
+if [ "$CARCH" = "i686" ]; then
+    sha256sums[0]='0c2f044d2c8d8f42d253f03378bc12160da8d6d6a1beed5d004fe72641b6ca8c'
+fi
+
+source=("https://warehouse.meteor.com/bootstrap/$pkgver/meteor-bootstrap-Linux_$CARCH.tar.gz")
+
+package() {
+    mkdir -p "$pkgdir/opt"
+    mv .meteor "$pkgdir/opt/meteor"
+    install -Dm755 "$pkgdir/opt/meteor/tools/latest/launch-meteor" "$pkgdir/usr/bin/meteor"
+    install -Dm644 "$pkgdir/opt/meteor/tools/latest/LICENSE.txt" "$pkgdir/usr/share/licenses/$pkgname/LICENSE.txt"
+}
